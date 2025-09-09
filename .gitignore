@@ -11,3 +11,9 @@ mysql.*/*
 *.frm
 ibdata1
 ib_logfile*
+mysql/
+mysql.*/*
+*.ibd
+*.frm
+ibdata1
+ib_logfile*
