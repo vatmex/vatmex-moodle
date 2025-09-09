@@ -5,3 +5,9 @@ moodledata/
 vendor/
 node_modules/
 .env
+mysql/
+mysql.*/*
+*.ibd
+*.frm
+ibdata1
+ib_logfile*
