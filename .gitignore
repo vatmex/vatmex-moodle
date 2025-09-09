@@ -1,0 +1,7 @@
+moodledata/
+*.sql*
+*.tgz
+*.zip
+vendor/
+node_modules/
+.env

@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: vatmex-moodle-web
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./moodledata:/var/www/moodledata
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - internal
+      - proxy
+
+  mysql:
+    image: mariadb:10.6.7
+    container_name: vatmex-moodle-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: vatmex
+      MYSQL_USER: vatmex
+      MYSQL_PASSWORD: vatmex
+      MYSQL_ROOT_PASSWORD: vatmex
+      SERVICE_TAG: dev
+      SERVICE_NAME: mysql
+    networks:
+      - internal
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vatmex-moodle-php
+    volumes: 
+     - ./src:/var/www/html
+     - ./moodledata:/var/www/moodledata
+    ports:
+      - "9001:9000"
+    networks:
+      - internal
+
+networks:
+  internal:
+  proxy:
+    name: 'proxy_default'
+    external: true
+
